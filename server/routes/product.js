@@ -84,6 +84,7 @@ router.post('/products', (req, res) => {
         Product.find(findArgs)
         .find({ $text: {$search: term}})
         .populate("writer")
+        .sort([[sortBy, order]]) //수정 가능성
         .skip(skip)
         .limit(limit)
         .exec((err, productInfo) => {
@@ -132,11 +133,11 @@ router.get('/products_by_id', (req, res) => {
         .populate('writer')
         .exec((err, product) => {
             if(err) return res.status(400).send(err)
-            return res.status(200).json({ success: true, product})
+            return res.status(200).json(product)
         })
 });
 
-
+    
 
 
 
